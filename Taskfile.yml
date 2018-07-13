@@ -2,16 +2,21 @@ version: '2'
 
 vars:
   REPO: ynishi/json-server-docker
+  VERSION: 10.6.0-alpine-0.14.0-1
 
 tasks:
   build:
     desc: build docker image
     cmds:
       - docker build -t {{.REPO}}:latest . --no-cache
-      - docker build -t {{.REPO}}:${VERSION} .
+      - docker build -t {{.REPO}}:{{.VERSION}} .
+  run:
+    desc: run docker image
+    cmds:
+      - docker run --rm -it --init {{.REPO}}
   push:
     deps: [build]
     desc: push docker image
     cmds:
       - docker push {{.REPO}}:latest
-      - docker push {{.REPO}}:${VERSION}
+      - docker push {{.REPO}}:{{.VERSION}}
